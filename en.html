@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Solicitud de catálogo</title>
+
+  <style>
+    :root{
+      --text:#222;
+      --border:#e5e7eb;
+      --btn:#111;
+      --btnText:#fff;
+      --max:760px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:#fff;
+    }
+
+    /* ===== Banner con TU URL (sin logo) ===== */
+    .banner{
+      height:240px;
+      border-bottom:1px solid #eee;
+      background-image:url("https://files.imagetourl.net/uploads/1769513991051-697888dc-6ad0-4948-a024-c107e166e364.png");
+      background-size:cover;
+      background-position:center;
+    }
+
+    .container{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:28px 16px 60px;
+      text-align:center;
+    }
+    h1{
+      margin:14px 0 28px;
+      font-size:30px;
+    }
+
+    .formCard{
+      width:min(520px, 92vw);
+      margin:0 auto;
+      text-align:left;
+    }
+    .field{ margin:18px 0; }
+    label{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:14px;
+      font-weight:600;
+      margin-bottom:8px;
+    }
+    .req{ font-weight:700; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"]{
+      width:100%;
+      height:38px;
+      border:1px solid var(--border);
+      border-radius:8px;
+      padding:0 12px;
+      outline:none;
+      background:#fff;
+    }
+    input:focus{
+      border-color:#cbd5e1;
+      box-shadow:0 0 0 3px rgba(148,163,184,.25);
+    }
+
+    .checkRow{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      margin-top:6px;
+      font-size:13px;
+      line-height:1.35;
+    }
+    .checkRow input{ margin-top:2px; }
+
+    .actions{ margin-top:16px; }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      background:var(--btn);
+      color:var(--btnText);
+      border:0;
+      border-radius:8px;
+      height:36px;
+      padding:0 14px;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    @media (max-width: 520px){
+      .banner{ height:200px; }
+      h1{ font-size:26px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="banner"></header>
+
+  <main class="container">
+    <h1>Solicitud de catálogo</h1>
+
+    <section class="formCard">
+      <form>
+        <div class="field">
+          <label>Nombre <span class="req">*</span></label>
+          <input name="nombre" type="text" required />
+        </div>
+
+        <div class="field">
+          <label>Apellido <span class="req">*</span></label>
+          <input name="apellido" type="text" required />
+        </div>
+
+        <div class="field">
+          <label>Número de teléfono <span class="req">*</span></label>
+          <input name="telefono" type="tel" required />
+        </div>
+
+        <div class="field">
+          <label>Correo electrónico <span class="req">*</span></label>
+          <input name="email" type="email" required />
+        </div>
+
+        <div class="field">
+          <label>Cargo <span class="req">*</span></label>
+          <input name="cargo" type="text" required />
+        </div>
+
+        <div class="field">
+          <label>Empresa <span class="req">*</span></label>
+          <input name="empresa" type="text" required />
+        </div>
+
+        <div class="checkRow">
+          <input id="consent" name="consent" type="checkbox" required />
+          <label for="consent" style="margin:0; font-weight:500;">
+            Acepto la política de privacidad y recibir el catálogo por email. <span class="req">*</span>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button class="btn" type="submit">
+            Enviar <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
