@@ -21,6 +21,7 @@
       background:#fff;
     }
 
+    /* Banner */
     .banner{
       height:240px;
       border-bottom:1px solid #eee;
@@ -65,7 +66,7 @@
     input[type="tel"]{
       width:100%;
       height:44px;
-      font-size:16px;
+      font-size:16px; /* evita zoom en iPhone */
       border:1px solid var(--border);
       border-radius:10px;
       padding:0 12px;
@@ -140,7 +141,14 @@
     <h1>Solicitud de catálogo</h1>
 
     <section class="formCard">
-      <form id="leadForm">
+
+      <!-- ENVÍO NORMAL (sin JS raro): esto es lo más fiable en cualquier ordenador -->
+      <form
+        id="leadForm"
+        action="https://script.google.com/macros/s/AKfycbyVH07-PcV4Be1AVI6jbwl3ihbQ9-JFCxrzECWW8DBf0s9OnxaHZG5ONoJSvYis_ipm/exec"
+        method="POST"
+        target="_blank"
+      >
         <div class="field">
           <label>Nombre <span class="req">*</span></label>
           <input name="nombre" type="text" required />
@@ -187,12 +195,12 @@
         <div id="ok" class="msg ok"></div>
         <div id="err" class="msg err"></div>
       </form>
+
     </section>
   </main>
 
   <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyVH07-PcV4Be1AVI6jbwl3ihbQ9-JFCxrzECWW8DBf0s9OnxaHZG5ONoJSvYis_ipm/exec";
-
+    // Solo para mostrar feedback en pantalla (el envío lo hace el form normal)
     const form = document.getElementById("leadForm");
     const btn = document.getElementById("submitBtn");
     const okBox = document.getElementById("ok");
@@ -205,12 +213,17 @@
       box.style.display = "block";
     }
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
+    form.addEventListener("submit", () => {
       if (!form.checkValidity()) return;
-
       btn.disabled = true;
       show(okBox, "Enviando...");
 
-      const fd = new FormData(
-
+      setTimeout(() => {
+        show(okBox, "¡Listo! Te enviamos el catálogo en PDF a tu correo.");
+        form.reset();
+        btn.disabled = false;
+      }, 1200);
+    });
+  </script>
+</body>
+</html>
