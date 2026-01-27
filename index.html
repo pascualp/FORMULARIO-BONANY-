@@ -21,7 +21,7 @@
       background:#fff;
     }
 
-    /* ===== Banner con TU URL (sin logo) ===== */
+    /* Banner */
     .banner{
       height:240px;
       border-bottom:1px solid #eee;
@@ -36,9 +36,11 @@
       padding:28px 16px 60px;
       text-align:center;
     }
+
     h1{
-      margin:14px 0 28px;
+      margin:14px 0 24px;
       font-size:30px;
+      line-height:1.15;
     }
 
     .formCard{
@@ -46,7 +48,9 @@
       margin:0 auto;
       text-align:left;
     }
+
     .field{ margin:18px 0; }
+
     label{
       display:flex;
       align-items:center;
@@ -57,13 +61,15 @@
     }
     .req{ font-weight:700; }
 
+    /* Inputs cómodos */
     input[type="text"],
     input[type="email"],
     input[type="tel"]{
       width:100%;
-      height:38px;
+      height:44px;            /* más alto (mejor móvil) */
+      font-size:16px;         /* evita zoom automático en iPhone */
       border:1px solid var(--border);
-      border-radius:8px;
+      border-radius:10px;
       padding:0 12px;
       outline:none;
       background:#fff;
@@ -77,24 +83,32 @@
       display:flex;
       gap:10px;
       align-items:flex-start;
-      margin-top:6px;
-      font-size:13px;
+      margin-top:10px;
+      font-size:14px;
       line-height:1.35;
     }
-    .checkRow input{ margin-top:2px; }
+    .checkRow input{
+      margin-top:4px;
+      width:18px;
+      height:18px;
+      flex:0 0 auto;
+    }
 
-    .actions{ margin-top:16px; }
+    .actions{ margin-top:18px; }
+
     .btn{
       display:inline-flex;
       align-items:center;
+      justify-content:center;
       gap:10px;
       background:var(--btn);
       color:var(--btnText);
       border:0;
-      border-radius:8px;
-      height:36px;
+      border-radius:10px;
+      height:44px;
       padding:0 14px;
-      font-weight:700;
+      font-size:16px;
+      font-weight:800;
       cursor:pointer;
     }
     .btn:disabled{ opacity:.6; cursor:not-allowed; }
@@ -109,9 +123,18 @@
     .ok{ background:#eaf7ee; }
     .err{ background:#fdeaea; }
 
+    /* ===== Mobile tuning ===== */
     @media (max-width: 520px){
-      .banner{ height:200px; }
-      h1{ font-size:26px; }
+      .banner{ height:160px; background-position:center 35%; }
+      .container{ padding:18px 14px 44px; }
+      h1{ font-size:24px; margin:10px 0 18px; }
+      .formCard{ width:100%; }
+
+      .field{ margin:14px 0; }
+      label{ font-size:14px; }
+
+      /* Botón a ancho completo en móvil */
+      .btn{ width:100%; }
     }
   </style>
 </head>
@@ -123,11 +146,8 @@
     <h1>Solicitud de catálogo</h1>
 
     <section class="formCard">
-
-      <!-- IMPORTANTE: pega aquí tu Web App URL de Apps Script -->
       <form id="leadForm"
-            action="https://script.google.com/macros/s/AKfycbz9qUZd9R66PmCi0-O53-VwRcfx_q0joch7vY6yZQ-sT46SYSUw1dvns8Xc3EpPtRxa/exec
-"
+            action="https://script.google.com/macros/s/AKfycbz9qUZd9R66PmCi0-O53-VwRcfx_q0joch7vY6yZQ-sT46SYSUw1dvns8Xc3EpPtRxa/exec"
             method="POST"
             target="hidden_iframe">
 
@@ -178,9 +198,7 @@
         <div id="err" class="msg err"></div>
       </form>
 
-      <!-- iframe oculto para no salir de la página -->
       <iframe name="hidden_iframe" style="display:none;"></iframe>
-
     </section>
   </main>
 
@@ -198,21 +216,17 @@
     }
 
     form.addEventListener("submit", () => {
-      // Validación nativa HTML5
       if (!form.checkValidity()) return;
 
       btn.disabled = true;
       show(okBox, "Enviando...");
 
-      // Como el POST va a un iframe, no podemos leer la respuesta.
-      // Mostramos OK tras unos segundos (si el backend falla, lo verás en Apps Script executions).
       setTimeout(() => {
         show(okBox, "¡Listo! Te enviamos el catálogo en PDF a tu correo.");
         form.reset();
         btn.disabled = false;
-      }, 1500);
+      }, 1200);
     });
   </script>
 </body>
 </html>
-
