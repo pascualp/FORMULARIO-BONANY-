@@ -97,6 +97,17 @@
       font-weight:700;
       cursor:pointer;
     }
+    .btn:disabled{ opacity:.6; cursor:not-allowed; }
+
+    .msg{
+      display:none;
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:10px;
+      font-size:14px;
+    }
+    .ok{ background:#eaf7ee; }
+    .err{ background:#fdeaea; }
 
     @media (max-width: 520px){
       .banner{ height:200px; }
@@ -112,7 +123,13 @@
     <h1>Solicitud de catálogo</h1>
 
     <section class="formCard">
-      <form>
+
+      <!-- IMPORTANTE: pega aquí tu Web App URL de Apps Script -->
+      <form id="leadForm"
+            action="PASTE_YOUR_WEB_APP_URL_HERE"
+            method="POST"
+            target="hidden_iframe">
+
         <div class="field">
           <label>Nombre <span class="req">*</span></label>
           <input name="nombre" type="text" required />
@@ -151,12 +168,49 @@
         </div>
 
         <div class="actions">
-          <button class="btn" type="submit">
+          <button id="submitBtn" class="btn" type="submit">
             Enviar <span aria-hidden="true">→</span>
           </button>
         </div>
+
+        <div id="ok" class="msg ok"></div>
+        <div id="err" class="msg err"></div>
       </form>
+
+      <!-- iframe oculto para no salir de la página -->
+      <iframe name="hidden_iframe" style="display:none;"></iframe>
+
     </section>
   </main>
+
+  <script>
+    const form = document.getElementById("leadForm");
+    const btn = document.getElementById("submitBtn");
+    const okBox = document.getElementById("ok");
+    const errBox = document.getElementById("err");
+
+    function show(box, text){
+      okBox.style.display = "none";
+      errBox.style.display = "none";
+      box.textContent = text;
+      box.style.display = "block";
+    }
+
+    form.addEventListener("submit", () => {
+      // Validación nativa HTML5
+      if (!form.checkValidity()) return;
+
+      btn.disabled = true;
+      show(okBox, "Enviando...");
+
+      // Como el POST va a un iframe, no podemos leer la respuesta.
+      // Mostramos OK tras unos segundos (si el backend falla, lo verás en Apps Script executions).
+      setTimeout(() => {
+        show(okBox, "¡Listo! Te enviamos el catálogo en PDF a tu correo.");
+        form.reset();
+        btn.disabled = false;
+      }, 1500);
+    });
+  </script>
 </body>
 </html>
