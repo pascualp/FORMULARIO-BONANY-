@@ -21,6 +21,7 @@
       background:#fff;
     }
 
+    /* Banner */
     .banner{
       height:240px;
       border-bottom:1px solid #eee;
@@ -65,7 +66,7 @@
     input[type="tel"]{
       width:100%;
       height:44px;
-      font-size:16px;
+      font-size:16px; /* evita zoom en iPhone */
       border:1px solid var(--border);
       border-radius:10px;
       padding:0 12px;
@@ -141,6 +142,7 @@
 
     <section class="formCard">
 
+      <!-- Envío SIN abrir pestaña: se envía al iframe oculto -->
       <form
         id="leadForm"
         action="https://script.google.com/macros/s/AKfycbyVH07-PcV4Be1AVI6jbwl3ihbQ9-JFCxrzECWW8DBf0s9OnxaHZG5ONoJSvYis_ipm/exec"
@@ -194,14 +196,15 @@
         <div id="err" class="msg err"></div>
       </form>
 
-      <iframe id="hidden_iframe" name="hidden_iframe" style="display:none;"></iframe>
+      <!-- iframe oculto -->
+      <iframe name="hidden_iframe" style="display:none;"></iframe>
 
     </section>
   </main>
 
   <script>
+    // Solo feedback visual (el envío real lo hace el form al iframe)
     const form = document.getElementById("leadForm");
-    const iframe = document.getElementById("hidden_iframe");
     const btn = document.getElementById("submitBtn");
     const okBox = document.getElementById("ok");
     const errBox = document.getElementById("err");
@@ -219,37 +222,13 @@
       btn.disabled = true;
       show(okBox, "Enviando...");
 
-      let finished = false;
-
-      // Si el iframe llega a cargar algo, consideramos que el envío salió
-      const onLoad = () => {
-        finished = true;
-        iframe.removeEventListener("load", onLoad);
+      // No podemos leer la respuesta del iframe.
+      // Si falla, lo verás en Apps Script > Executions.
+      setTimeout(() => {
         show(okBox, "¡Listo! Te enviamos el catálogo en PDF a tu correo.");
         form.reset();
         btn.disabled = false;
-      };
-
-      iframe.addEventListener("load", onLoad);
-
-      // Fallback: si en 3.5s no hay load (bloqueado), abrir en pestaña nueva
-      setTimeout(() => {
-        if (finished) return;
-
-        iframe.removeEventListener("load", onLoad);
-
-        // Abrimos en pestaña SOLO si el iframe fue bloqueado
-        form.target = "_blank";
-        show(okBox, "Tu navegador bloqueó el envío silencioso. Se abrirá una pestaña para completar el envío…");
-
-        // Re-enviamos
-        setTimeout(() => {
-          form.submit();
-          // volvemos al modo iframe para la próxima
-          form.target = "hidden_iframe";
-          btn.disabled = false;
-        }, 400);
-      }, 3500);
+      }, 1200);
     });
   </script>
 </body>
